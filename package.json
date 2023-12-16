@@ -1,0 +1,20 @@
+{
+  "name": "ptc-schedule",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "tailwind": "npx tailwindcss -i ./src/input.css -o ./public/output.css --watch",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.3.11"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.2",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.10"
+  }
+}

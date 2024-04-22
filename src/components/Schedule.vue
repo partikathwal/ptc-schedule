@@ -17,18 +17,40 @@
 						<td class="p-2">Reader</td>
 						<td class="p-2">Hospitality</td>
 					</tr>
-					<tr v-for="week in monthWeeks" :key="week.day" class="border-b border-gray-500">
-						<td class="p-2 bg-sky-200 h-16">{{ week.monthName }} {{ week.day }}</td>
-						<td class="p-2">
+					<tr v-for="week in monthWeeks" :key="week.day" class="border-b border-gray-500" :class="{
+							'bg-red-100': week.outline === 0,
+							'bg-green-100': week.outline.includes?.('SP'),
+							'bg-blue-100': week.type === 'caco',
+							'bg-yellow-100': week.type === 'cabr',
+							'bg-purple-100': week.type === 'rc',
+							'bg-orange-100': week.type === 'co'
+						}">
+						<td class="py-2 px-4 h-16" :class="{'bg-sky-200':
+							week.outline !== 0 &&
+							!week.outline.includes?.('SP') &&
+							week.type !== 'caco' &&
+							week.type !== 'cabr' &&
+							week.type !== 'rc' &&
+							week.type !== 'co'}">
+							{{ week.monthName }} {{ week.day }}
+						</td>
+						<td class="py-2 px-4">
 							<div v-if="week.type === 'stream'" class="font-bold">
 								<div>Stream Talk</div>
 							</div>
-							<div v-else-if="week.type === 'memorial'" class="font-bold">
-								<div>Memorial</div>
+							<div v-else-if="week.outline.includes?.('SP')" class="font-bold">
+								<div class="font-bold">खास भाषण: {{ week.hindiTitle }}</div>
+								<div>Special Talk: {{ week.title }}</div>
 							</div>
 							<div v-else class="flex flex-col">
-								<div class="font-bold">{{ week.theme_upper || week.hindiTitle }}</div>
-								<div>{{ week.theme_lower || week.title }}</div>
+								<div class="font-bold">
+									{{ week.type === 'caco' ? "सम्मेलन:" : week.type === 'cabr' ? "सम्मेलन:" : week.type === "rc" ? "अधिवेशन:" : "" }}
+									{{ week.theme_upper || week.hindiTitle }}
+								</div>
+								<div>
+									{{ week.type === 'caco' ? "CACO:" : week.type === 'cabr' ? "CABR:" : week.type === "rc" ? "Convention" : "" }}
+									{{ week.theme_lower || week.title }}
+								</div>
 							</div>
 						</td>
 						<td class="p-2">
@@ -38,11 +60,12 @@
 							<div v-else class="flex flex-col">
 								<div class="font-bold">{{ week.speaker }}</div>
 								<div class="text-sm">{{ week.type === "co" ? "Circuit Overseer" : week.congregation }}</div>
+								<div v-if="week.translator" class="italic text-sm">Translator: {{ week.translator }}</div>
 							</div>
 						</td>
 						<td class="p-2">{{ week.chairman }}</td>
 						<td class="p-2">{{ week.reader }}</td>
-						<td class="p-2" :class="{'font-bold': week.hospitality}">{{ week.type === "stream" ? "(Stream)" : (week.type === "zoom") ? "(Zoom)" : (week.type === "local") ? "(Local)" : (week.type === "co") ? "(CO)" : (week.type === "memorial") ? "(Memorial)" : week.hospitality }}</td>
+						<td class="p-2" :class="{'font-bold': week.hospitality}">{{ week.type === "stream" ? "(Stream)" : (week.type === "zoom") ? "(Zoom)" : (week.type === "local") ? "(Local)" : (week.type === "co") ? "(CO)" : week.hospitality }}</td>
 					</tr>
 				</template>
 			</tbody>
